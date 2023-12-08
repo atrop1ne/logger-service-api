@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "v1/contracts.proto",
+    "title": "logger-service-api/v1/contracts.proto",
     "version": "version not set"
   },
   "tags": [
