@@ -22,6 +22,10 @@ const _ = grpc.SupportPackageIsVersion7
 const (
 	Logs_GetLogsLevels_FullMethodName = "/contracts.v1.Logs/GetLogsLevels"
 	Logs_GetLogs_FullMethodName       = "/contracts.v1.Logs/GetLogs"
+	Logs_Info_FullMethodName          = "/contracts.v1.Logs/Info"
+	Logs_Error_FullMethodName         = "/contracts.v1.Logs/Error"
+	Logs_Warning_FullMethodName       = "/contracts.v1.Logs/Warning"
+	Logs_Debug_FullMethodName         = "/contracts.v1.Logs/Debug"
 )
 
 // LogsClient is the client API for Logs service.
@@ -30,6 +34,10 @@ const (
 type LogsClient interface {
 	GetLogsLevels(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetLogsLevelsResponse, error)
 	GetLogs(ctx context.Context, in *GetLogsRequest, opts ...grpc.CallOption) (*GetLogsResponse, error)
+	Info(ctx context.Context, in *SetLogRequest, opts ...grpc.CallOption) (*SetLogResponce, error)
+	Error(ctx context.Context, in *SetLogRequest, opts ...grpc.CallOption) (*SetLogResponce, error)
+	Warning(ctx context.Context, in *SetLogRequest, opts ...grpc.CallOption) (*SetLogResponce, error)
+	Debug(ctx context.Context, in *SetLogRequest, opts ...grpc.CallOption) (*SetLogResponce, error)
 }
 
 type logsClient struct {
@@ -58,12 +66,52 @@ func (c *logsClient) GetLogs(ctx context.Context, in *GetLogsRequest, opts ...gr
 	return out, nil
 }
 
+func (c *logsClient) Info(ctx context.Context, in *SetLogRequest, opts ...grpc.CallOption) (*SetLogResponce, error) {
+	out := new(SetLogResponce)
+	err := c.cc.Invoke(ctx, Logs_Info_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *logsClient) Error(ctx context.Context, in *SetLogRequest, opts ...grpc.CallOption) (*SetLogResponce, error) {
+	out := new(SetLogResponce)
+	err := c.cc.Invoke(ctx, Logs_Error_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *logsClient) Warning(ctx context.Context, in *SetLogRequest, opts ...grpc.CallOption) (*SetLogResponce, error) {
+	out := new(SetLogResponce)
+	err := c.cc.Invoke(ctx, Logs_Warning_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *logsClient) Debug(ctx context.Context, in *SetLogRequest, opts ...grpc.CallOption) (*SetLogResponce, error) {
+	out := new(SetLogResponce)
+	err := c.cc.Invoke(ctx, Logs_Debug_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // LogsServer is the server API for Logs service.
 // All implementations must embed UnimplementedLogsServer
 // for forward compatibility
 type LogsServer interface {
 	GetLogsLevels(context.Context, *emptypb.Empty) (*GetLogsLevelsResponse, error)
 	GetLogs(context.Context, *GetLogsRequest) (*GetLogsResponse, error)
+	Info(context.Context, *SetLogRequest) (*SetLogResponce, error)
+	Error(context.Context, *SetLogRequest) (*SetLogResponce, error)
+	Warning(context.Context, *SetLogRequest) (*SetLogResponce, error)
+	Debug(context.Context, *SetLogRequest) (*SetLogResponce, error)
 	mustEmbedUnimplementedLogsServer()
 }
 
@@ -76,6 +124,18 @@ func (UnimplementedLogsServer) GetLogsLevels(context.Context, *emptypb.Empty) (*
 }
 func (UnimplementedLogsServer) GetLogs(context.Context, *GetLogsRequest) (*GetLogsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetLogs not implemented")
+}
+func (UnimplementedLogsServer) Info(context.Context, *SetLogRequest) (*SetLogResponce, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Info not implemented")
+}
+func (UnimplementedLogsServer) Error(context.Context, *SetLogRequest) (*SetLogResponce, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Error not implemented")
+}
+func (UnimplementedLogsServer) Warning(context.Context, *SetLogRequest) (*SetLogResponce, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Warning not implemented")
+}
+func (UnimplementedLogsServer) Debug(context.Context, *SetLogRequest) (*SetLogResponce, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Debug not implemented")
 }
 func (UnimplementedLogsServer) mustEmbedUnimplementedLogsServer() {}
 
@@ -126,6 +186,78 @@ func _Logs_GetLogs_Handler(srv interface{}, ctx context.Context, dec func(interf
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Logs_Info_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SetLogRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LogsServer).Info(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Logs_Info_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LogsServer).Info(ctx, req.(*SetLogRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Logs_Error_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SetLogRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LogsServer).Error(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Logs_Error_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LogsServer).Error(ctx, req.(*SetLogRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Logs_Warning_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SetLogRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LogsServer).Warning(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Logs_Warning_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LogsServer).Warning(ctx, req.(*SetLogRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Logs_Debug_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SetLogRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LogsServer).Debug(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Logs_Debug_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LogsServer).Debug(ctx, req.(*SetLogRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Logs_ServiceDesc is the grpc.ServiceDesc for Logs service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -140,6 +272,22 @@ var Logs_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetLogs",
 			Handler:    _Logs_GetLogs_Handler,
+		},
+		{
+			MethodName: "Info",
+			Handler:    _Logs_Info_Handler,
+		},
+		{
+			MethodName: "Error",
+			Handler:    _Logs_Error_Handler,
+		},
+		{
+			MethodName: "Warning",
+			Handler:    _Logs_Warning_Handler,
+		},
+		{
+			MethodName: "Debug",
+			Handler:    _Logs_Debug_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -18,6 +18,30 @@ service Logs {
             get: "/logs"
         };
     }
+    rpc Info (SetLogRequest) returns (SetLogResponce) {
+        option (google.api.http) = {
+            post: "/logs/info"
+            body: "*"
+        };
+    }
+    rpc Error (SetLogRequest) returns (SetLogResponce) {
+        option (google.api.http) = {
+            post: "/logs/error"
+            body: "*"
+        };
+    }
+    rpc Warning (SetLogRequest) returns (SetLogResponce) {
+        option (google.api.http) = {
+            post: "/logs/warning"
+            body: "*"
+        };
+    }
+    rpc Debug (SetLogRequest) returns (SetLogResponce) {
+        option (google.api.http) = {
+            post: "/logs/debug"
+            body: "*"
+        };
+    }
 }
 
 message LogLevel {
@@ -43,8 +67,20 @@ message GetLogsRequest {
     string message = 3;
     string date_from = 4;
     string date_to = 5;
+    int32 page = 6;
+    int32 count_per_page = 7;
 }
 
 message GetLogsResponse {
     repeated Log logs = 1;
+}
+
+message SetLogRequest {
+    string date = 1;
+    string source = 2;
+    string message = 3;
+}
+
+message SetLogResponce {
+    int64 id = 1;
 }
